@@ -294,13 +294,13 @@ dialog ul{margin:4px 0;padding-left:20px}
 (function(){
 "use strict";
 const EMAIL="lucas.faninger@gmail.com";
-const LINKEDIN=""; // e.g. "https://www.linkedin.com/in/your-profile/"
+const LINKEDIN="https://www.linkedin.com/in/lucas-faninger-07895115b/";
 // What I'm looking for: one short line per item, per language. Leave empty to hide the section.
 const LOOKING_FOR={ fr:[], de:[], en:[] };
 // Public address of the site, printed on the PDF CV (e.g. "https://lucasfaninger.dev"). Optional.
 const SITE_URL="";
 // Privacy-friendly analytics (GoatCounter): put your code, e.g. "lucasfaninger". Leave empty to disable.
-const GOATCOUNTER="";
+const GOATCOUNTER="lucasfaninger";
 
 /* =================== TEXT (EN / FR / DE) =================== */
 const L={
@@ -809,12 +809,12 @@ const HOTSPOTS=[];
 ROOMDEF.forEach((r,i)=>i!==LAB_I&&r.hs.forEach(h=>HOTSPOTS.push({id:h.id,room:i,x:RX(i)+h.x,y:RY(i)+h.y,action:h.action,w:h.w,h:h.h,tags:h.tags||[],link:h.link,cred:h.cred})));
 
 /* =================== SPRITES =================== */
-const PAL={h:'#4a2f22',H:'#6e4732',s:'#e8b896',S:'#c98f6c',g:'#1d2433',b:'#3a2418',c:'#4a7ec9',C:'#33609c',p:'#2e3448',k:'#17171f'};
+const PAL={h:'#1b191f',H:'#3d3946',s:'#ebbd9a',S:'#c9906c',g:'#3a3f4c',e:'#1d1a18',w:'#d6ecfa',d:'#121014',b:'#3b302b',B:'#0a090b',m:'#a5624c',c:'#4f86cf',C:'#3a6cb0',p:'#2e3448',k:'#17171f'};
 const B='................';
 const HEAD={
-  down:[B,'....hhHhhHhh....','...hhHhhhhhHh...','...hhhhhhhhhh...','...hhsssssshh...','....sggssggs....','....sssSSsss....','....bbssssbb....','.....bbbbbb.....'],
-  up:[B,'....hhHhhHhh....','...hhhhhhhhhh...','...hhHhhhhhHh...','...hhhhhhhhhh...','....hhhhhhhh....','....shhhhhhs....','.....hhhhhh.....','......ssss......'],
-  side:[B,'.....hhHhhh.....','....hhhhhHhh....','...hhhhhhhhhh...','...hhhhsssss....','....hhsgggsg....','....hhssssssS...','....hbbbbsss....','.....bbbbbb.....']
+  down:['....hHhhHhhHh...','...hHhhHhhHhh...','..hhHhhHhhHhhh..','..hhsddssddshh..','..hsggssssggsh..','..SgewgssgewgS..','..hsggssssggsh..','..bssssSSssssb..','..bbBBssssBBbb..','...bBsBBBBsBb...','....bbbmmbbb....','.....bbbbbb.....'],
+  up:['....hHhhHhhHh...','...hHhhHhhHhh...','..hhHhhHhhHhhh..','..hhHhhhhhHhhh..','..hhhhhhhhhhhh..','..hhhhHhhhhhhh..','..ShhhhhhhhhhS..','..bhhhhHhhhhhb..','..bbhhhhhhhhbb..','...bbhhhhhhbb...','....bbbbbbbb....','.....ssssss.....'],
+  side:['.....hHhhHh.....','....hHhhHhhHh...','...hhHhhhHhhhh..','...hhhhhsddss...','...hhhSgsggss...','...hhhhggewgs...','...hhhhssggss...','....bbsssssssS..','....bbbbsBBsss..','....bbbbBsBBBs..','.....bbbbbbmms..','......bbbbbbbb..']
 };
 const BODY={
   front:['...cccccccccc...','..CccccccccccC..','..sccccccccccs..','....pppppppp....'],
@@ -828,16 +828,16 @@ const LEGS={
         ['.....pppppp.....','....pp....pp....','...kkk....kkk...'],
         ['.....pppppp.....','......pppp......','......kkkk......']]
 };
+const SPR_H=19;
 function makeSprite(rows,flip){
-  const c=document.createElement('canvas'); c.width=16; c.height=16;
+  const W=16, H=rows.length;
+  const c=document.createElement('canvas'); c.width=W; c.height=H;
   const x=c.getContext('2d');
-  rows.forEach((r,y)=>{ for(let i=0;i<16;i++){ const ch=r[i]; if(PAL[ch]){ x.fillStyle=PAL[ch]; x.fillRect(flip?15-i:i,y,1,1);} } });
-  const d=x.getImageData(0,0,16,16), a=(px,py)=>(px<0||py<0||px>15||py>15)?0:d.data[(py*16+px)*4+3];
+  rows.forEach((r,y)=>{ for(let i=0;i<W;i++){ const ch=r[i]; if(PAL[ch]){ x.fillStyle=PAL[ch]; x.fillRect(flip?W-1-i:i,y,1,1);} } });
+  const d=x.getImageData(0,0,W,H), a=(px,py)=>(px<0||py<0||px>=W||py>=H)?0:d.data[(py*W+px)*4+3];
   const out=[];
-  for(let py=0;py<16;py++)for(let px=0;px<16;px++){ if(!a(px,py)&&(a(px-1,py)||a(px+1,py)||a(px,py-1)||a(px,py+1))) out.push([px,py]); }
+  for(let py=0;py<H;py++)for(let px=0;px<W;px++){ if(!a(px,py)&&(a(px-1,py)||a(px+1,py)||a(px,py-1)||a(px,py+1))) out.push([px,py]); }
   x.fillStyle='#1a1214'; out.forEach(([px,py])=>x.fillRect(px,py,1,1));
-  // glasses glint
-  if(rows[5]&&rows[5].includes('sggssggs')){ x.fillStyle='#bfe0ff'; x.fillRect(flip?10:5,5,1,1); x.fillRect(flip?6:9,5,1,1); }
   return c;
 }
 const SPR={};
@@ -2410,7 +2410,7 @@ function drawMarkers(c,t){
       c.fillRect(h.x-2,h.y-2,h.w+4,1); c.fillRect(h.x-2,h.y+h.h+1,h.w+4,1); c.fillRect(h.x-2,h.y-2,1,h.h+4); c.fillRect(h.x+h.w+1,h.y-2,1,h.h+4);
     }
     if(near===h){
-      const bx=Math.round(player.x)-5, by=Math.round(player.y)-30;
+      const bx=Math.round(player.x)-5, by=Math.round(player.y)-SPR_H-14;
       c.fillStyle='#1a1214'; c.fillRect(bx-1,by-1,11,11);
       c.fillStyle='#f2c230'; c.fillRect(bx,by,9,9);
       c.fillStyle='#1d2433'; GLYPH_E.forEach((row,ry)=>[...row].forEach((p,rx)=>{ if(p==='1') c.fillRect(bx+3+rx,by+2+ry,1,1); }));
@@ -2684,14 +2684,14 @@ function frame(now){
   const dogBehind=dog.y<=player.y;
   const dogOcc=()=>occlude(ctx,dog.x-12,dog.y-12,24,14,dog.y);
   if(dogBehind){ drawDog(ctx); dogOcc(); }
-  if(ps<1) ctx.drawImage(SPR[player.dir+f],player.x-8*ps,player.y-(15-bob)*ps,16*ps,16*ps); else ctx.drawImage(SPR[player.dir+f],px-8,py-15+bob);
-  occlude(ctx,player.x-9,player.y-17,18,19,player.y);
+  if(ps<1) ctx.drawImage(SPR[player.dir+f],player.x-8*ps,player.y-(SPR_H-1-bob)*ps,16*ps,SPR_H*ps); else ctx.drawImage(SPR[player.dir+f],px-8,py-(SPR_H-1)+bob);
+  occlude(ctx,player.x-9,player.y-SPR_H-1,18,SPR_H+3,player.y);
   if(!dogBehind){ drawDog(ctx); dogOcc(); }
   if(OCC_HITS.length){ ctx.save(); ctx.beginPath(); OCC_HITS.forEach(r=>ctx.rect(r[0],r[1],r[2],r[3])); ctx.clip(); animate(ctx,clock); ctx.restore(); OCC_HITS.length=0; }
-  if(devMode&&(player.dir==='down'||player.dir==='left'||player.dir==='right')){ ctx.fillStyle='#0b0d12'; if(player.dir==='down'){ ctx.fillRect(px-4,py-15+5+bob+1,8,2); ctx.fillRect(px-5,py-15+5+bob+1,1,1); ctx.fillRect(px+4,py-15+5+bob+1,1,1); } else { const sx=player.dir==='right'?px-1:px-4; ctx.fillRect(sx,py-15+5+bob+1,5,2); } }
+  if(devMode&&(player.dir==='down'||player.dir==='left'||player.dir==='right')){ const ey=py-(SPR_H-1)+5+bob; ctx.fillStyle='#0b0d12'; if(player.dir==='down'){ ctx.fillRect(px-5,ey,10,2); } else { ctx.fillRect(player.dir==='right'?px-1:px-3,ey,5,2); } }
   for(let k=confetti.length-1;k>=0;k--){ const q=confetti[k]; q.life-=1/60; q.x+=q.vx; q.y+=q.vy; q.vy+=0.05; if(q.life<=0){ confetti.splice(k,1); continue; } ctx.fillStyle=q.c; ctx.fillRect(Math.round(q.x),Math.round(q.y),2,2); }
   if(night) drawNight(ctx,clock);
-  if(currentRoom===0 && player.x<RX(0)+ROOM_W-8 && !player.moving && !openId){ const u=TX().ui, hs=[...u.hellos, TOUCHNAV?u.helloTouch:u.helloDesk], k=Math.floor(clock/3.4)%hs.length; bubble(ctx,px,py-19,hs[k],140); }
+  if(currentRoom===0 && player.x<RX(0)+ROOM_W-8 && !player.moving && !openId){ const u=TX().ui, hs=[...u.hellos, TOUCHNAV?u.helloTouch:u.helloDesk], k=Math.floor(clock/3.4)%hs.length; bubble(ctx,px,py-SPR_H-3,hs[k],140); }
   drawMarkers(ctx,clock);
   ctx.restore();
   ctx.drawImage(vignette,0,0);

@@ -23,10 +23,10 @@ npx serve .
 
 Near the top of the `<script>`:
 
-- `LINKEDIN`: LinkedIn profile URL (shows the LinkedIn buttons)
+- `LINKEDIN`: LinkedIn profile URL (already set)
 - `LOOKING_FOR`: what I'm looking for, a few lines per language (`fr`, `de`, `en`)
 - `SITE_URL`: public address, printed in the PDF CV footer
-- `GOATCOUNTER`: GoatCounter code for cookie-free visit statistics (optional)
+- `GOATCOUNTER`: GoatCounter code (set to `lucasfaninger`)
 
 In the `<head>`, replace `og-image.png` in the `og:image` tag with the full URL
 (for example `https://my-domain/og-image.png`): LinkedIn needs an absolute URL.
